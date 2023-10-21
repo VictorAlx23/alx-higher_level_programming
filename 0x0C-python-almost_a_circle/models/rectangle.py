@@ -6,7 +6,7 @@ from models.base import Base
 class Rectangle(Base):
     """Represent a rectangle."""
 
-    def _init_(self, width, height, x=0, y=0, id=None):
+    def __init__(self, width, height, x=0, y=0, id=None):
         """Initialize a new Rectangle.
 
         Args:
@@ -25,7 +25,7 @@ class Rectangle(Base):
         self.height = height
         self.x = x
         self.y = y
-        super()._init_(id)
+        super().__init__(id)
 
     @property
     def width(self):
@@ -112,7 +112,7 @@ class Rectangle(Base):
             for arg in args:
                 if a == 0:
                     if arg is None:
-                        self._init_(self.width, self.height, self.x, self.y)
+                        self.__init__(self.width, self.height, self.x, self.y)
                     else:
                         self.id = arg
                 elif a == 1:
@@ -129,7 +129,7 @@ class Rectangle(Base):
             for k, v in kwargs.items():
                 if k == "id":
                     if v is None:
-                        self._init_(self.width, self.height, self.x, self.y)
+                        self.__init__(self.width, self.height, self.x, self.y)
                     else:
                         self.id = v
                 elif k == "width":
@@ -151,7 +151,7 @@ class Rectangle(Base):
             "y": self.y
         }
 
-    def _str_(self):
+    def __str__(self):
         """Return the print() and str() representation of the Rectangle."""
         return "[Rectangle] ({}) {}/{} - {}/{}".format(self.id,
                                                        self.x, self.y,

@@ -15,9 +15,9 @@ class Base:
         __nb_object (int): Number of instantiated Bases.
     """
 
-    __nb_objects = 0
+    _nb_objects = 0
 
-    def _init_(self, id=None):
+    def __init__(self, id=None):
         """Initialize a new Base.
 
         Args:
@@ -26,8 +26,8 @@ class Base:
         if id is not None:
             self.id = id
         else:
-            Base.__nb_objects += 1
-            self.id = Base.__nb_objects
+            Base._nb_objects += 1
+            self.id = Base._nb_objects
 
     @staticmethod
     def to_json_string(list_dictionaries):
@@ -47,7 +47,7 @@ class Base:
         Args:
             list_objs (list): A list of inherited Base instances.
         """
-        filename = cls._name_ + ".json"
+        filename = cls.__name__ + ".json"
         with open(filename, "w") as jsonfile:
             if list_objs is None:
                 jsonfile.write("[]")
@@ -77,7 +77,7 @@ class Base:
             **dictionary (dict): Key/value pairs of attributes to initialize.
         """
         if dictionary and dictionary != {}:
-            if cls._name_ == "Rectangle":
+            if cls.__name__ == "Rectangle":
                 new = cls(1, 1)
             else:
                 new = cls(1)
@@ -94,7 +94,7 @@ class Base:
             If the file does not exist - an empty list.
             Otherwise - a list of instantiated classes.
         """
-        filename = str(cls._name_) + ".json"
+        filename = str(cls.__name__) + ".json"
         try:
             with open(filename, "r") as jsonfile:
                 list_dicts = Base.from_json_string(jsonfile.read())
@@ -109,12 +109,12 @@ class Base:
         Args:
             list_objs (list): A list of inherited Base instances.
         """
-        filename = cls._name_ + ".csv"
+        filename = cls.__name__ + ".csv"
         with open(filename, "w", newline="") as csvfile:
             if list_objs is None or list_objs == []:
                 csvfile.write("[]")
             else:
-                if cls._name_ == "Rectangle":
+                if cls.__name__ == "Rectangle":
                     fieldnames = ["id", "width", "height", "x", "y"]
                 else:
                     fieldnames = ["id", "size", "x", "y"]
@@ -132,10 +132,10 @@ class Base:
             If the file does not exist - an empty list.
             Otherwise - a list of instantiated classes.
         """
-        filename = cls._name_ + ".csv"
+        filename = cls.__name__ + ".csv"
         try:
             with open(filename, "r", newline="") as csvfile:
-                if cls._name_ == "Rectangle":
+                if cls.__name__ == "Rectangle":
                     fieldnames = ["id", "width", "height", "x", "y"]
                 else:
                     fieldnames = ["id", "size", "x", "y"]

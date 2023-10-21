@@ -6,7 +6,7 @@ from models.rectangle import Rectangle
 class Square(Rectangle):
     """Represent a square."""
 
-    def _init_(self, size, x=0, y=0, id=None):
+    def __init__(self, size, x=0, y=0, id=None):
         """Initialize a new Square.
 
         Args:
@@ -15,7 +15,7 @@ class Square(Rectangle):
             y (int): The y coordinate of the new Square.
             id (int): The identity of the new Square.
         """
-        super()._init_(size, size, x, y, id)
+        super().__init__(size, size, x, y, id)
 
     @property
     def size(self):
@@ -38,35 +38,21 @@ class Square(Rectangle):
                 - 4th argument represents y attribute
             **kwargs (dict): New key/value pairs of attributes.
         """
-        if args and len(args) != 0:
-            a = 0
-            for arg in args:
-                if a == 0:
-                    if arg is None:
-                        self._init_(self.size, self.x, self.y)
-                    else:
-                        self.id = arg
-                elif a == 1:
-                    self.size = arg
-                elif a == 2:
-                    self.x = arg
-                elif a == 3:
-                    self.y = arg
-                a += 1
+        if args:
+            attributes = ["id", "size", "x", "y"]
+            for i, arg in enumerate(args):
+                if i < len(attributes) and arg is not None:
+                    setattr(self, attributes[i], arg)
 
-        elif kwargs and len(kwargs) != 0:
-            for k, v in kwargs.items():
-                if k == "id":
-                    if v is None:
-                        self._init_(self.size, self.x, self.y)
-                    else:
-                        self.id = v
-                elif k == "size":
-                    self.size = v
-                elif k == "x":
-                    self.x = v
-                elif k == "y":
-                    self.y = v
+        for key, value in kwargs.items():
+            if key == "id" and value is not None:
+                self.id = value
+            if key == "size":
+                self.size = value
+            if key == "x":
+                self.x = value
+            if key == "y":
+                self.y = value
 
     def to_dictionary(self):
         """Return the dictionary representation of the Square."""
@@ -77,7 +63,7 @@ class Square(Rectangle):
             "y": self.y
         }
 
-    def _str_(self):
+    def __str__(self):
         """Return the print() and str() representation of a Square."""
-        return "[Square] ({}) {}/{} - {}".format(self.id, self.x, self.y,
-                                                 self.width)
+        return "[Square] ({}) {}/{} - {}".format(self.id, self.x, self.y, self.width)
+
